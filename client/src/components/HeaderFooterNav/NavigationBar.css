@@ -1,0 +1,24 @@
+header {
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 700;
+    z-index: 1;
+}
+
+
+
+header > ul {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.navLink {
+    padding-right: 25px;
+    list-style-type: none;
+}

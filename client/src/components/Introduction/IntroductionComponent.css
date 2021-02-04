@@ -1,0 +1,8 @@
+.family{
+    display: flex;
+    flex-direction: row;
+    width: 350em;
+    height: 450em;
+    border-radius: 800/2;
+}
+

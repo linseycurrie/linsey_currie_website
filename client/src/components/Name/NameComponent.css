@@ -1,0 +1,13 @@
+span > h1 {
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 40px;
+    color: rgb(255, 163, 202);
+    
+}
+
+.typed-text {
+    margin-top: 70px;
+    margin-right: auto;
+    margin-left: auto;
+}
