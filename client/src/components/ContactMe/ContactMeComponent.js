@@ -1,42 +1,57 @@
 import React, { useState } from 'react';
+import firebase from '../../firebase.js';
 
-const ContactMeComponent = () => {
-  const [status, setStatus] = useState("Submit");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Sending...");
-    const { name, email, message } = e.target.elements;
-    let details = {
-      name: name.value,
-      email: email.value,
-      message: message.value,
-    };
-    let response = await fetch("http://localhost:5000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(details),
+
+const ContactMeComponent = () => { 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (event) => {
+    event.prevent.default();
+    const db = firebase.firestore();
+    db.settings({
+      timestampsInSnapShots: true
     });
-    setStatus("Submit");
-    let result = await response.json();
-    alert(result.status);
+    const contactMessage = db.collection("contact")
+    .add({
+      name : name,
+      email : email,
+      message : message
+    })
+    .then(() => {
+      alert("Message has been sent.")
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+
+    setName("");
+    setEmail("");
+    setMessage("")
   };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="name">Name:</label>
-        <input type="text" id="name" required />
+        <input type="text" id="name" placeholder="e.g. John Smith" value={name} 
+        onChange={(event) => setName(event.target.value)} required />
       </div>
+
       <div>
         <label htmlFor="email">Email:</label>
-        <input type="email" id="email" required />
+        <input type="email" id="email" placeholder="e.g. J.Smith@gmail.com" value={email} 
+        onChange={(event) => setEmail(event.target.value)} required />
       </div>
+
       <div>
         <label htmlFor="message">Message:</label>
-        <textarea id="message" required />
+        <textarea id="message" value={message} 
+        onChange={(event) => setMessage(event.target.value)} required />
       </div>
-      <button type="submit">{status}</button>
+
+      <button type="submit">Submit</button>
     </form>
   );
 };
